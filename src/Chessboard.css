@@ -1,0 +1,43 @@
+/* Chessboard.css */
+.board {
+    display: flex;
+    flex-direction: column;
+    width: 640px;
+    height: 640px;
+    border: 4px solid #000;
+    margin: 40px 120px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.square {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+}
+
+.white {
+    background-color: #f0d9b5;
+}
+
+.black {
+    background-color: #b58863;
+}
+
+.piece {
+    font-weight: bold;
+}
+
+.whitePiece {
+    color: #fff;
+}
+
+.blackPiece {
+    color: #000;
+}
