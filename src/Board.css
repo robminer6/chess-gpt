@@ -1,4 +1,4 @@
-/* Chessboard.css */
+/* Board.css */
 .board {
     display: flex;
     flex-direction: column;
@@ -19,7 +19,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 48px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    transition: background-color 0.3s ease; /* Smooth transition for background */
 }
 
 .white {
@@ -32,6 +33,8 @@
 
 .piece {
     font-weight: bold;
+    font-family: "Arial", sans-serif;
+    font-size: 72px;
 }
 
 .whitePiece {
@@ -40,4 +43,14 @@
 
 .blackPiece {
     color: #000;
+}
+
+.white.highlighted {
+    background-color: #c8a67d;
+    border: 2px solid black;
+}
+
+.black.highlighted {
+    background-color: #8c593c;
+    border: 2px solid black;
 }
