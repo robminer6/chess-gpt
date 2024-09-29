@@ -1,6 +1,7 @@
 // Board.tsx
 import React, { useCallback, useState } from "react";
 import InitialBoard from "./InitialBoard";
+import getValidMoves from "./ValidMoves";
 import Square from "./Square";
 import "./Board.css";
 
@@ -17,18 +18,34 @@ export type SquareType = {
 const Board: React.FC = () => {
     const [board, setBoard] = useState<SquareType[][]>(InitialBoard);
 
-    const handleSquareClick = useCallback((row: number, col: number) => {
-        setBoard((prevBoard) =>
-            prevBoard.map((boardRow, r) =>
-                boardRow.map((square, c) => {
-                    return {
+    const handleSquareClick = useCallback(
+        (row: number, col: number) => {
+            const selectedSquare = board[row][col];
+            const piece = selectedSquare.piece;
+
+            if (!piece) {
+                // If no piece is present, reset all highlights
+                setBoard((prevBoard) =>
+                    prevBoard.map((boardRow) =>
+                        boardRow.map((square) => ({ ...square, highlighted: false }))
+                    )
+                );
+                return;
+            }
+
+            const validMoves = getValidMoves(row, col, piece, board);
+
+            setBoard((prevBoard) =>
+                prevBoard.map((boardRow, r) =>
+                    boardRow.map((square, c) => ({
                         ...square,
-                        highlighted: r === row && c === col,
-                    };
-                })
-            )
-        );
-    }, []);
+                        highlighted: validMoves.some((move) => move.row === r && move.col === c),
+                    }))
+                )
+            );
+        },
+        [board]
+    );
 
     const renderRow = (row: number) => {
         const squares = [];

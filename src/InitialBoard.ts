@@ -1,4 +1,4 @@
-// InitialBoard.tsx
+// InitialBoard.ts
 import { SquareType } from "./Board";
 
 const InitialBoard: SquareType[][] = [
@@ -24,14 +24,14 @@ const InitialBoard: SquareType[][] = [
         { piece: { type: "P", color: "black" }, highlighted: false },
     ],
     [
+        { piece: { type: "P", color: "white" }, highlighted: false },
+        { piece: { type: "P", color: "black" }, highlighted: false },
         { highlighted: false },
         { highlighted: false },
         { highlighted: false },
         { highlighted: false },
         { highlighted: false },
-        { highlighted: false },
-        { highlighted: false },
-        { highlighted: false },
+        { piece: { type: "P", color: "white" }, highlighted: false },
     ],
     [
         { highlighted: false },
@@ -45,23 +45,23 @@ const InitialBoard: SquareType[][] = [
     ],
     [
         { highlighted: false },
+        { piece: { type: "P", color: "black" }, highlighted: false },
         { highlighted: false },
         { highlighted: false },
-        { highlighted: false },
-        { highlighted: false },
+        { piece: { type: "R", color: "white" }, highlighted: false },
         { highlighted: false },
         { highlighted: false },
         { highlighted: false },
     ],
     [
+        { piece: { type: "P", color: "black" }, highlighted: false },
         { highlighted: false },
         { highlighted: false },
         { highlighted: false },
+        { piece: { type: "P", color: "black" }, highlighted: false },
         { highlighted: false },
         { highlighted: false },
-        { highlighted: false },
-        { highlighted: false },
-        { highlighted: false },
+        { piece: { type: "P", color: "black" }, highlighted: false },
     ],
     [
         { piece: { type: "P", color: "white" }, highlighted: false },
