@@ -1,6 +1,7 @@
 // Square.tsx
 import React from "react";
 import { Piece } from "./Board";
+import Color from "./Color";
 
 interface SquareProps {
     row: number;
@@ -36,7 +37,11 @@ const Square: React.FC<SquareProps> = React.memo(
                 }`}
             >
                 {piece && (
-                    <span className={`piece ${piece.color}Piece`}>{pieceSymbols[piece.type]}</span>
+                    <span
+                        className={`piece ${piece.color === Color.white ? "white" : "black"}Piece`}
+                    >
+                        {pieceSymbols[piece.type]}
+                    </span>
                 )}
             </div>
         );

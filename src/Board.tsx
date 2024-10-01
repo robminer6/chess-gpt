@@ -3,11 +3,12 @@ import React, { useCallback, useState } from "react";
 import InitialBoard from "./InitialBoard";
 import getValidMoves from "./ValidMoves";
 import Square from "./Square";
+import Color from "./Color";
 import "./Board.css";
 
 export type Piece = {
     type: string; // 'P' for Pawn, 'R' for Rook, etc.
-    color: "white" | "black";
+    color: Color;
 };
 
 export type SquareType = {
