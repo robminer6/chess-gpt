@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/chess-gpt/static/css/main.d40df8af.css",
-    "main.js": "/chess-gpt/static/js/main.514bc86d.js",
+    "main.css": "/chess-gpt/static/css/main.5e52cef0.css",
+    "main.js": "/chess-gpt/static/js/main.6c67ea5f.js",
     "static/js/453.7fe34c79.chunk.js": "/chess-gpt/static/js/453.7fe34c79.chunk.js",
     "index.html": "/chess-gpt/index.html",
-    "main.d40df8af.css.map": "/chess-gpt/static/css/main.d40df8af.css.map",
-    "main.514bc86d.js.map": "/chess-gpt/static/js/main.514bc86d.js.map",
+    "main.5e52cef0.css.map": "/chess-gpt/static/css/main.5e52cef0.css.map",
+    "main.6c67ea5f.js.map": "/chess-gpt/static/js/main.6c67ea5f.js.map",
     "453.7fe34c79.chunk.js.map": "/chess-gpt/static/js/453.7fe34c79.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d40df8af.css",
-    "static/js/main.514bc86d.js"
+    "static/css/main.5e52cef0.css",
+    "static/js/main.6c67ea5f.js"
   ]
 }
