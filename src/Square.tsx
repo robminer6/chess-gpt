@@ -6,7 +6,7 @@ import Color from "./Color";
 interface SquareProps {
     row: number;
     col: number;
-    piece?: Piece;
+    piece: Piece | null;
     isHighlighted?: boolean;
     onClick?: () => void;
 }

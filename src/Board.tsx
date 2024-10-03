@@ -1,6 +1,5 @@
 // Board.tsx
 import React, { useCallback, useState } from "react";
-import InitialBoard from "./InitialBoard";
 import getValidMoves from "./ValidMoves";
 import Square from "./Square";
 import Color from "./Color";
@@ -12,20 +11,53 @@ export type Piece = {
 };
 
 export type SquareType = {
-    piece?: Piece;
+    piece: Piece | null;
     highlighted: boolean;
 };
 
-const Board: React.FC = () => {
-    const [board, setBoard] = useState<SquareType[][]>(InitialBoard);
+interface BoardProps {
+    board: SquareType[][];
+    setBoard: React.Dispatch<React.SetStateAction<SquareType[][]>>;
+}
+
+const Board: React.FC<BoardProps> = ({ board, setBoard }) => {
+    const [selectedPiece, setSelectedPiece] = useState<{
+        row: number;
+        col: number;
+        piece: Piece | null;
+    } | null>(null);
 
     const handleSquareClick = useCallback(
         (row: number, col: number) => {
             const selectedSquare = board[row][col];
             const piece = selectedSquare.piece;
 
+            if (selectedPiece) {
+                if (board[row][col].highlighted) {
+                    // Move the piece to the new square
+                    const newBoard = [...board];
+                    newBoard[selectedPiece.row][selectedPiece.col].piece = null;
+                    newBoard[row][col].piece = selectedPiece.piece;
+
+                    setBoard(
+                        newBoard.map((boardRow) =>
+                            boardRow.map((square) => ({ ...square, highlighted: false }))
+                        )
+                    );
+                    setSelectedPiece(null);
+                } else {
+                    // Reset selection and highlights
+                    setBoard((prevBoard) =>
+                        prevBoard.map((boardRow) =>
+                            boardRow.map((square) => ({ ...square, highlighted: false }))
+                        )
+                    );
+                    setSelectedPiece(null);
+                }
+                return;
+            }
+
             if (!piece) {
-                // If no piece is present, reset all highlights
                 setBoard((prevBoard) =>
                     prevBoard.map((boardRow) =>
                         boardRow.map((square) => ({ ...square, highlighted: false }))
@@ -34,8 +66,9 @@ const Board: React.FC = () => {
                 return;
             }
 
+            // Highlight valid moves for the selected piece
             const validMoves = getValidMoves(row, col, piece, board);
-
+            setSelectedPiece({ row, col, piece });
             setBoard((prevBoard) =>
                 prevBoard.map((boardRow, r) =>
                     boardRow.map((square, c) => ({
@@ -45,7 +78,7 @@ const Board: React.FC = () => {
                 )
             );
         },
-        [board]
+        [board, selectedPiece, setBoard]
     );
 
     const renderRow = (row: number) => {
@@ -53,9 +86,10 @@ const Board: React.FC = () => {
         for (let col = 0; col < 8; col++) {
             squares.push(
                 <Square
+                    key={`${row}-${col}`}
                     row={row}
                     col={col}
-                    piece={board[row][col]?.piece}
+                    piece={board[row][col].piece}
                     isHighlighted={board[row][col].highlighted}
                     onClick={() => handleSquareClick(row, col)}
                 />
