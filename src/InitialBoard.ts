@@ -1,4 +1,3 @@
-// InitialBoard.ts
 import { SquareType } from "./Board";
 import Color from "./Color";
 

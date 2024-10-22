@@ -1,14 +1,21 @@
-/* App.css */
+.right-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 20px;
+    max-width: 250px;
+}
+
 .reset-button {
     background-color: #4caf50;
     border: none;
     color: white;
-    padding: 15px 16px;
+    padding: 10px 15px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 5px;
+    margin: 20px 5px 5px 5px;
     cursor: pointer;
     border-radius: 8px;
     transition: background-color 0.3s ease;
@@ -18,11 +25,64 @@
     background-color: #45a049;
 }
 
-/* Center both the button and board */
 .app-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+}
+
+.winner-message {
+    font-size: 36px;
+    margin-top: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.board-and-explanation {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.ai-explanation {
+    font-size: 16px;
+    color: #333;
+    word-wrap: break-word;
+}
+
+.ai-explanation > h2 {
+    margin-top: 0;
+}
+
+.header-message {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header-message h1 {
+    font-size: 28px;
+    margin: 0;
+}
+
+.header-message p {
+    font-size: 18px;
+    color: #555;
+}
+
+.footer {
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+}
+
+.footer a {
+    color: #0073b1;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.footer a:hover {
+    text-decoration: underline;
 }
