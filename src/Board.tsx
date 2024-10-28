@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import getValidMoves from "./ValidMoves";
+import getValidMoves from "./validMoves";
 import Square from "./Square";
 import Color from "./Color";
 import { movePrompt, stringToPiece, stringToRowCol, AIMove } from "./apiUtils";
 import "./Board.css";
-const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
 
 export type Piece = {
     type: string; // 'P' for Pawn, 'R' for Rook, etc.
@@ -31,7 +30,7 @@ const Board: React.FC<BoardProps> = ({ board, setBoard, winner, setWinner, setAI
         piece: Piece | null;
     } | null>(null);
 
-    const handleSquareClick = (row: number, col: number) => {
+    const handleSquareClick = async (row: number, col: number) => {
         if (winner) return;
 
         const selectedSquare = board[row][col];
@@ -51,7 +50,13 @@ const Board: React.FC<BoardProps> = ({ board, setBoard, winner, setWinner, setAI
                 }
 
                 newBoard[selectedPiece.row][selectedPiece.col].piece = null;
-                newBoard[row][col].piece = selectedPiece.piece;
+
+                if (selectedPiece.piece?.type === "P" && (row === 0 || row === 7)) {
+                    // Automatically promote to queen
+                    newBoard[row][col].piece = { type: "Q", color: selectedPiece.piece.color };
+                } else {
+                    newBoard[row][col].piece = selectedPiece.piece;
+                }
 
                 setBoard(
                     newBoard.map((boardRow) =>
@@ -60,7 +65,10 @@ const Board: React.FC<BoardProps> = ({ board, setBoard, winner, setWinner, setAI
                 );
 
                 setSelectedPiece(null);
-                sendBoardToAI(newBoard);
+                if (!winner) {
+                    setTimeout(() => null, 10);
+                    applyAIMove(await getAIMove(newBoard));
+                }
             } else {
                 // Reset selection and highlights
                 setBoard((prevBoard) =>
@@ -95,17 +103,14 @@ const Board: React.FC<BoardProps> = ({ board, setBoard, winner, setWinner, setAI
         );
     };
 
-    async function sendBoardToAI(board: SquareType[][]) {
+    // Sends the board state to the Netlify function, which calls the ChatGPT API
+    async function getAIMove(board: SquareType[][]): Promise<AIMove | null> {
         const boardState = JSON.stringify(board); // Convert board to a string representation
-
-        // Call ChatGPT API
-        let aiMove = null;
         try {
-            const response = await fetch("https://api.openai.com/v1/chat/completions", {
+            const response = await fetch("/.netlify/functions/gpt-move", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${apiKey}`,
                 },
                 body: JSON.stringify({
                     model: "gpt-4", // I can use "gpt-3.5-turbo" instead if 4 is too $$$
@@ -131,13 +136,11 @@ const Board: React.FC<BoardProps> = ({ board, setBoard, winner, setWinner, setAI
 
             const data = await response.json();
             console.log(data.choices[0].message.content);
-            aiMove = extractMoveFromResponse(data.choices[0].message.content);
+            return extractMoveFromResponse(data.choices[0].message.content);
         } catch (error) {
-            console.error("Error in sendBoardToAI:", error);
+            console.error("Error in getAIMove:", error);
+            return null;
         }
-
-        // Apply AI's move to the board and show explanation
-        applyAIMove(aiMove);
     }
 
     function extractMoveFromResponse(responseText: string): AIMove {
@@ -146,16 +149,11 @@ const Board: React.FC<BoardProps> = ({ board, setBoard, winner, setWinner, setAI
         const toRegex = /To:\s(.+)/;
         const explanationRegex = /Explanation:\s(.+)/;
 
-        let piece = stringToPiece(pieceRegex.exec(responseText)?.[1] ?? "", Color.black);
-        let from = stringToRowCol(fromRegex.exec(responseText)?.[1] ?? "");
-        let to = stringToRowCol(toRegex.exec(responseText)?.[1] ?? "");
-        const explanation = explanationRegex.exec(responseText)?.[1] ?? "";
-
         return {
-            piece,
-            from,
-            to,
-            explanation,
+            piece: stringToPiece(pieceRegex.exec(responseText)?.[1] ?? "", Color.black),
+            from: stringToRowCol(fromRegex.exec(responseText)?.[1] ?? ""),
+            to: stringToRowCol(toRegex.exec(responseText)?.[1] ?? ""),
+            explanation: explanationRegex.exec(responseText)?.[1] ?? "",
         };
     }
 

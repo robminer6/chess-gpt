@@ -4,6 +4,7 @@
     "homepage": "https://robminer6.github.io/chess-gpt",
     "private": true,
     "dependencies": {
+        "@netlify/functions": "^2.8.2",
         "@testing-library/jest-dom": "^5.17.0",
         "@testing-library/react": "^13.4.0",
         "@testing-library/user-event": "^13.5.0",
@@ -11,6 +12,7 @@
         "@types/node": "^16.18.105",
         "@types/react": "^18.3.4",
         "@types/react-dom": "^18.3.0",
+        "node-fetch": "^3.3.2",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
         "react-scripts": "5.0.1",
@@ -45,6 +47,7 @@
     },
     "devDependencies": {
         "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+        "@types/node-fetch": "^2.6.11",
         "gh-pages": "^6.1.1"
     }
 }
